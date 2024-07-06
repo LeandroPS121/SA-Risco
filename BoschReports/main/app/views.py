@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import UserLoginForm, ReportForm
 from .models import Reports, CustomUser
 from django.contrib.auth import get_user_model
 
@@ -9,26 +8,20 @@ CustomUser = get_user_model()
 
 def register_view(request):
     if request.method == 'POST':
-        edv = request.POST.get('edv')
+        edv_register = request.POST.get('edv')
         first_name = request.POST.get('nome')
         last_name = request.POST.get('sobrenome')
         password = request.POST.get('senha')
         email = request.POST.get('email')
 
-        # Validar os dados recebidos
-
-        # Verificar se já existe um usuário com o mesmo nome
-        if CustomUser.objects.filter(username=str(first_name+'_'+last_name)).exists():
-            # Tratar o erro de usuário já existente
+        if CustomUser.objects.filter(edv=edv_register).exists():
+         
             return render(request, 'app/register.html', {'error_message': 'Usuário já existe. Escolha outro nome.'})
 
-        # Criar um novo usuário CustomUser
-        user = CustomUser.objects.create_user(username=str(first_name+'_'+last_name),first_name=first_name, edv=edv, last_name=last_name, password=password, email=email)
+        user = CustomUser.objects.create_user(username=str(last_name+'_'+first_name),first_name=first_name, edv=edv_register, last_name=last_name, password=password, email=email)
 
-        # Redirecionar para a página de login após o registro
         return redirect('login')
 
-    # Renderizar o template de registro normalmente para o método GET
     return render(request, 'app/register.html')
 
 def redirect_login_view(request):
@@ -36,19 +29,27 @@ def redirect_login_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.error(request, 'Usuário ou senha inválidos.')
+        edv = request.POST.get('edv')
+        password = request.POST.get('password')
+        print('edv: '+edv+'\nsenha: '+password)
+        
+        user = authenticate(request, edv=edv, password=password)
+        
+        if user is not None:
+            print(f'Usuário encontrado no banco - edv: {user.edv}, username: {user.username}')
+        else:
+            print('Usuário não encontrado no banco.')
+            
+        if user is not None:
+            # Login bem-sucedido
+            login(request, user)
+            return render(request,'app/main.html')  # Redirecionar para a página principal
+        else: 
+            return render(request, 'app/login.html',{'erro':True})
     else:
-        form = UserLoginForm()
-    return render(request, 'app/login.html', {'form': form})
+        # Se não for um POST, renderizar a página de login
+        return render(request, 'app/login.html')
+    
 
 def logout_view(request):
     logout(request)
@@ -56,23 +57,17 @@ def logout_view(request):
 
 def form_view(request):
     if request.method == 'POST':
-        form = ReportForm(request.POST)
-        if form.is_valid():
             # Cria ou atualiza o objeto Reports para o usuário atual
-            obj = Reports.objects.update_or_create(
-                user=request.user,
-                defaults={
-                    'planta_reports': form.cleaned_data.get('planta'),
-                    'sala_reports': form.cleaned_data.get('sala'),
-                    'situacao_reports': form.cleaned_data.get('situacao'),
-                    'risco_identificado_reports': form.cleaned_data.get('risco_identificado'),
-                    'houve_vitimas_reports': form.cleaned_data.get('houveVitimas'),
-                    'nivel_danos_reports': form.cleaned_data.get('nivel_danos'),
-                    'descricao_reports': form.cleaned_data.get('descricao'),
-                }
-            )
-            return redirect('pagina_de_sucesso')  # Redireciona para uma página de sucesso após salvar
+        obj = Reports.objects.filter()
+        palnta=request.get('planta')
+        sala= request.get('sala')
+        situacao=request.get('situacao')
+        risco_identificado=request.get('risco_identificado')
+        houve_vitimas=request.get('houveVitimas')
+        nivel_danos=request.get('nivel_danos')
+        descricao=request.get('descricao')
+        
+        return redirect('pagina_de_sucesso')  # Redireciona para uma página de sucesso após salvar
     else:
-        form = ReportForm()
     
-    return render(request, 'app/form.html', {'form': form})
+        return render(request, 'app/form.html')

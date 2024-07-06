@@ -127,6 +127,9 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# settings.py
 AUTH_USER_MODEL = 'app.CustomUser'
 
+AUTHENTICATION_BACKENDS = [
+    'app.auth.EDVAuthentication',
+    'django.contrib.auth.backends.ModelBackend',
+]
