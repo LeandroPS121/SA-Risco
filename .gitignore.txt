@@ -1,0 +1,15 @@
+# Arquivos gerados pelo sistema operacional
+*.DS_Store
+Thumbs.db
+
+# Arquivos de ambiente específicos
+.env
+
+# Diretório de arquivos de build ou cache
+/build/
+/dist/
+/node_modules/
+/venv/
+
+# Arquivos de log e saída
+*.log
