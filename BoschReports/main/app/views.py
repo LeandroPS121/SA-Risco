@@ -7,22 +7,41 @@ from django.contrib.auth import get_user_model
 CustomUser = get_user_model()
 
 def register_view(request):
+    
     if request.method == 'POST':
-        edv_register = request.POST.get('edv')
-        first_name = request.POST.get('nome')
-        last_name = request.POST.get('sobrenome')
-        password = request.POST.get('senha')
-        email = request.POST.get('email')
+        edv_reg = request.POST.get('edv')
+        first_name_reg = request.POST.get('nome')
+        last_name_reg = request.POST.get('sobrenome')
+        password_reg = request.POST.get('senha')
+        email_reg = request.POST.get('email')
 
-        if CustomUser.objects.filter(edv=edv_register).exists():
-         
-            return render(request, 'app/register.html', {'error_message': 'Usuário já existe. Escolha outro nome.'})
+        # Verifica se o usuário com o EDV já existe
+        if CustomUser.objects.filter(edv=edv_reg).exists():
+            return render(request, 'app/register.html', {'erro': True})
 
-        user = CustomUser.objects.create_user(username=str(last_name+'_'+first_name),first_name=first_name, edv=edv_register, last_name=last_name, password=password, email=email)
-
+        # Cria um novo usuário
+        user = CustomUser.objects.create_user(
+            username=str(last_name_reg + '_' + first_name_reg),
+            first_name=first_name_reg,
+            edv=edv_reg,
+            last_name=last_name_reg,
+            password=password_reg,
+            email=email_reg
+        )
+        
         return redirect('login')
 
     return render(request, 'app/register.html')
+
+
+
+
+def main_admin_view(request):
+    data = Reports.objects.all()
+    return render(request,'app/main.html',{'reports':data})
+
+
+
 
 def redirect_login_view(request):
     return redirect('login')
@@ -43,7 +62,7 @@ def login_view(request):
         if user is not None:
             # Login bem-sucedido
             login(request, user)
-            return render(request,'app/main.html')  # Redirecionar para a página principal
+            return redirect('main')  # Redirecionar para a página principal
         else: 
             return render(request, 'app/login.html',{'erro':True})
     else:
@@ -56,18 +75,27 @@ def logout_view(request):
     return redirect('login')
 
 def form_view(request):
-    if request.method == 'POST':
-            # Cria ou atualiza o objeto Reports para o usuário atual
-        obj = Reports.objects.filter()
-        palnta=request.get('planta')
-        sala= request.get('sala')
-        situacao=request.get('situacao')
-        risco_identificado=request.get('risco_identificado')
-        houve_vitimas=request.get('houveVitimas')
-        nivel_danos=request.get('nivel_danos')
-        descricao=request.get('descricao')
+    if request.method == 'POST':           
+        print('1')
+        # Cria um novo objeto Reports e salva no banco de dados
+        report = Reports.objects.create(
+            user=request.user,
+            planta_reports=request.POST.get('planta'),
+            sala_reports=request.POST.get('sala'),
+            situacao_reports=request.POST.get('situacao'),
+            risco_identificado_reports=request.POST.get('risco_identificado'),
+            houve_vitimas_reports=request.POST.get('houveVitimas'),
+            nivel_danos_reports=request.POST.get('nivel_danos'),
+            descricao_reports='teste',
+        )
+        print('2')
+        report.save()
+        print('3')
         
-        return redirect('pagina_de_sucesso')  # Redireciona para uma página de sucesso após salvar
+        return redirect('success')  # Redireciona para uma página de successo após salvar
     else:
-    
+        print('nao eh posto')
         return render(request, 'app/form.html')
+
+def form_success_view(request):
+    return render(request,'app/success.html')

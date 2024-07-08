@@ -15,7 +15,7 @@ class Reports(models.Model):
     sala_reports = models.CharField(max_length=100)
     situacao_reports = models.CharField(max_length=255)
     risco_identificado_reports = models.CharField(max_length=255)
-    houve_vitimas_reports = models.BooleanField(default=False)
+    houve_vitimas_reports = models.CharField(default='Não', max_length=4)
     nivel_danos_reports = models.CharField(max_length=50)
     descricao_reports = models.TextField(blank=True, null=True)
     
