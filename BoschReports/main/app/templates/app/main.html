@@ -25,15 +25,16 @@
                     <th class="col-1 bg-primary text-light">Sala</th>
                 </thead>
                 <tbody>
-                    {% for item in reports %}
+                    {% for data in reports %}
                         <tr>
-                            <td>{{ item.id }}</td>
-                            <td>{{ item.user.first_name }}</td>
-                            <td>{{ item.user.edv }}</td>
-                            <td>{{ item.risco_identificado }}</td>
-                            <td>{{ item.area }}</td>
-                            <td>{{ item.planta }}</td>
-                            <td>{{ item.sala }}</td>
+                            <td>{{ data.id }}</td>
+                            <td>{{ data.user.username }}</td>
+                            <td>{{ data.user.edv }}</td>
+                            <td>{{ data.risco_identificado_reports }}</td>
+                            <td>{{ data.area }}</td>
+                            <td>{{ data.planta_reports }}</td>
+                            <td>{{ data.sala_reports }}</td>
+                            <td><input type="checkbox" name="" id="{{ data.id }}"></td>
                         </tr>
                 {% endfor %}
                 </tbody>

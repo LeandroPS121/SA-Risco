@@ -83,9 +83,9 @@ def form_view(request):
             planta_reports=request.POST.get('planta'),
             sala_reports=request.POST.get('sala'),
             situacao_reports=request.POST.get('situacao'),
-            risco_identificado_reports=request.POST.get('risco_identificado'),
+            risco_identificado_reports=request.POST.get('riscoIdentificado'),
             houve_vitimas_reports=request.POST.get('houveVitimas'),
-            nivel_danos_reports=request.POST.get('nivel_danos'),
+            nivel_danos_reports=request.POST.get('nivelDanos'),
             descricao_reports='teste',
         )
         print('2')
