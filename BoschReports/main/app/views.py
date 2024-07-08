@@ -1,8 +1,10 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Reports, CustomUser
 from django.contrib.auth import get_user_model
+
 
 CustomUser = get_user_model()
 
@@ -53,16 +55,14 @@ def login_view(request):
         print('edv: '+edv+'\nsenha: '+password)
         
         user = authenticate(request, edv=edv, password=password)
-        
-        if user is not None:
-            print(f'Usuário encontrado no banco - edv: {user.edv}, username: {user.username}')
-        else:
-            print('Usuário não encontrado no banco.')
             
         if user is not None:
             # Login bem-sucedido
             login(request, user)
-            return redirect('main')  # Redirecionar para a página principal
+
+            verify_admin(request)
+
+            return redirect('form')  # Redirecionar para a página principal
         else: 
             return render(request, 'app/login.html',{'erro':True})
     else:
@@ -81,7 +81,7 @@ def form_view(request):
         report = Reports.objects.create(
             user=request.user,
             planta_reports=request.POST.get('planta'),
-            sala_reports=request.POST.get('sala'),
+            local_reports=request.POST.get('local'),
             situacao_reports=request.POST.get('situacao'),
             risco_identificado_reports=request.POST.get('riscoIdentificado'),
             houve_vitimas_reports=request.POST.get('houveVitimas'),
@@ -99,3 +99,9 @@ def form_view(request):
 
 def form_success_view(request):
     return render(request,'app/success.html')
+
+def verify_admin(request):
+    if request.user.edv=="123123123":
+        request.user.is_superuser=True
+
+        return redirect('main')

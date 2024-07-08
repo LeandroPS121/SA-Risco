@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
 class Reports(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     planta_reports = models.CharField(max_length=100)
-    sala_reports = models.CharField(max_length=100)
+    local_reports = models.CharField(max_length=100)
     situacao_reports = models.CharField(max_length=255)
     risco_identificado_reports = models.CharField(max_length=255)
     houve_vitimas_reports = models.CharField(default='Não', max_length=4)

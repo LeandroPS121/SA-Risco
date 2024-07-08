@@ -7,33 +7,42 @@
     <title>Formulário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'styles/telaFormulario.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/confPadrao.css' %}">
+    <script src="{% static 'scripts/includes.js' %}"></script>
+    <script src="{% static 'scripts/forms.js' %}"></script>
     <style>
     
     </style>
 </head>
 <body>
+    <img src="{% static 'images/bosch-graphic.png' %}" height="2%" width="100%" class="position-fixed" style="top:0%;">
     <div class="container">
         <h1>Formulário</h1>
         <form id="myForm" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label for="planta">Planta:</label>
-                <input type="text" class="form-control" id="planta" name="planta" placeholder="Digite a planta">
+                <label for="planta"><ast class="text-danger">*</ast>Planta:</label>
+                 <select class="form-control" id="planta" name="planta" onchange='showLocals()'>
+                    <option value="--" selected>--</option>
+                    <option value="4">4 - Joinville</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="sala">Sala:</label>
-                <input type="text" class="form-control" id="sala" name="sala" placeholder="Digite a sala">
+                <label for="local"><ast class="text-danger">*</ast>Local:</label>
+                <select class="form-control" id="local" name="local">   
+                    
+                </select>
             </div>
             <div class="form-group">
-                <label for="situacao">Situacao:</label>
+                <label for="situacao"><ast class="text-danger">*</ast>Situação:</label>
                 <input type="text" class="form-control" id="situacao" name="situacao" placeholder="Informe a situacao">
             </div>
             <div class="form-group">
-                <label for="riscoIdentificado">Risco identificado:</label>
+                <label for="riscoIdentificado"><ast class="text-danger">*</ast>Risco identificado:</label>
                 <input type="text" class="form-control" id="riscoIdentificado" name="riscoIdentificado" placeholder="Digite o risco identificado">
             </div>
             <div class="form-group">
-                <label for="houveVitimas">Houve vítima(s)?:</label>
+                <label for="houveVitimas"><ast class="text-danger">*</ast>Houve vítima(s)?:</label>
                 <select class="form-control" id="houveVitimas" name="houveVitimas">
                     <option value="sim">Sim</option>
                     <option value="nao" selected>Não</option>
