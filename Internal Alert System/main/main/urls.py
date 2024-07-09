@@ -21,5 +21,5 @@ from app import views
 urlpatterns = [
     path('', views.redirect_login_view),
     path('admin/', admin.site.urls),
-    path('br/', include('app.urls')),
+    path('IAS/', include('app.urls')),
 ]

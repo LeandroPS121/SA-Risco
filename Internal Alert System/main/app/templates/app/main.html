@@ -32,17 +32,18 @@
                     </thead>
                     <tbody>
                         {% for data in reports %}
-                            <tr>
-                                <td>{{ data.id }}</td>
-                                <td>{{ data.user.username }}</td>
-                                <td>{{ data.user.edv }}</td>
-                                <td>{{ data.risco_identificado_reports }}</td>
-                                <td>{{ data.area }}</td>
-                                <td>{{ data.planta_reports }}</td>
-                                <td>{{ data.local_reports }}</td>
-                                <td><input type="checkbox" class="checkbox-small" name="relatorios_ids" value="{{ data.id }}"></td>
-                            </tr>
-                        {% endfor %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ data.user.username }}</td>
+                            <td>{{ data.user.edv }}</td>
+                            <td>{{ data.risco_identificado_reports }}</td>
+                            <td>{{ data.area }}</td>
+                            <td>{{ data.planta_reports }}</td>
+                            <td>{{ data.local_reports }}</td>
+                            <td><input type="checkbox" class="checkbox-small" name="relatorios_ids" value="{{ data.id }}"></td>
+                        </tr>
+                    {% endfor %}
+
                     </tbody>
                 </table>
                 <div class="row d-flex align-items-center justify-content-between mx-0">

@@ -2,21 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const table = document.getElementById('tabela-relatorios');
     const checkboxes = table.querySelectorAll('tbody input[type="checkbox"]');
     const checkTodos = document.getElementById('checkTodos');
-    const tableContainer = document.querySelector('.table-container');
-
-    // Verifica inicialmente se há linhas na tabela
-    verificarTabela();
-
-    // Função para verificar se há linhas na tabela
-    function verificarTabela() {
-        const tbody = table.querySelector('tbody');
-        if (tbody.rows.length === 0) {
-            const mensagem = document.createElement('div');
-            mensagem.textContent = 'Não há dados na planilha.';
-            mensagem.classList.add('text-center', 'mt-3', 'text-muted');
-            tableContainer.replaceWith(mensagem);
-        }
-    }
 
     // Adicionar evento ao checkbox "Selecionar Todos"
     checkTodos.addEventListener('change', function () {
@@ -64,11 +49,23 @@ function excluirSelecionados() {
         checkbox.closest('tr').remove();
     });
 
-    // Verifica novamente se há linhas na tabela após a exclusão
-    verificarTabela();
+    verificaDadosPlanilha();
+}
+function verificaDadosPlanilha(){
+    const table = document.getElementById('tabela-relatorios');
+    const tbody = table.querySelector('tbody');
+    
+    // Verifica se ainda há linhas na tabela
+    if (tbody.rows.length === 0) {
+        const tableContainer = document.querySelector('.table-container');
+        const mensagem = document.createElement('div');
+        mensagem.textContent = 'Não há dados na planilha.';
+        mensagem.classList.add('text-center', 'mt-3', 'text-muted');
+        tableContainer.replaceWith(mensagem);
+    }
 }
 
-
+// Função para filtrar a tabela
 function filtrarTabela() {
     const input = document.getElementById('btn-pesquisar');
     const filter = input.value.toUpperCase();
@@ -97,7 +94,5 @@ function filtrarTabela() {
             trs[i].style.display = 'none';
         }
     }
-
-    // Verifica novamente se há linhas na tabela após filtrar
-    verificarTabela();
 }
+verificaDadosPlanilha();

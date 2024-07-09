@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="{% static 'styles/telaFormulario.css' %}">
     <link rel="stylesheet" href="{% static 'styles/confPadrao.css' %}">
     <script src="{% static 'scripts/includes.js' %}"></script>
-    <script src="{% static 'scripts/forms.js' %}"></script>
+    <script src="{% static 'scripts/forms/config.js' %}"></script>
+    <script src="{% static 'scripts/forms/locals.js' %}"></script>
+    <script src="{% static 'scripts/forms/situacoes.js' %}"></script>
     <style>
     
     </style>
@@ -22,26 +24,30 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="planta"><ast class="text-danger">*</ast>Planta:</label>
-                 <select class="form-control" id="planta" name="planta" onchange='refreshLocals()'>
+                 <select class="form-control" id="planta" name="planta" onchange='loadLocals()'>
                     <option value="0">--</option>
                     {% for planta in plantas %}
-                    <option value="{{planta.id}}" id="{{planta.id}}">{{planta.id}} - {{planta.nome_planta}}</option>
+                    <option value="{{planta.id}}" id="{{planta.id}}">{{forloop.counter}} - {{planta.nome_planta}}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group">
                 <label for="local"><ast class="text-danger">*</ast>Local:</label>
-                <select class="form-control" id="local" name="local">   
-                    
+                <select class="form-control" id="local" name="local" onchange='loadSituacoes()'>   
+                
                 </select>
             </div>
             <div class="form-group">
                 <label for="situacao"><ast class="text-danger">*</ast>Situação:</label>
-                <input type="text" class="form-control" id="situacao" name="situacao" placeholder="Informe a situacao">
+                <select class="form-control" id="situacao" name="situacao">   
+                    
+                </select>
             </div>
             <div class="form-group">
                 <label for="riscoIdentificado"><ast class="text-danger">*</ast>Risco identificado:</label>
-                <input type="text" class="form-control" id="riscoIdentificado" name="riscoIdentificado" placeholder="Digite o risco identificado">
+                <select class="form-control" id="risco-identificado" name="risco-identificado">   
+                    
+                </select>
             </div>
             <div class="form-group">
                 <label for="houveVitimas"><ast class="text-danger">*</ast>Houve vítima(s)?:</label>

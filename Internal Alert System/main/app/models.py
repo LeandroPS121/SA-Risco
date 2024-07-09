@@ -31,6 +31,7 @@ class Local(models.Model):
     interno_exerno_local=models.CharField(max_length=100)
     
 class Situacao(models.Model):
+    local=models.ForeignKey(Local,on_delete=models.CASCADE)
     nome_situacao=models.CharField(max_length=100)
     descricao_situacao=models.CharField(max_length=255)
 

@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Reports, CustomUser,Planta,Local
+from .models import Reports, CustomUser,Planta,Local,Situacao
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 import json
@@ -82,21 +82,20 @@ def form_view(request):
         # Cria um novo objeto Reports e salva no banco de dados
         planta = request.POST.get('planta', '')
         local = request.POST.get('local', '')
-        if ' - ' in planta:
-            planta_rep = planta.split(' - ')[1]
-        else:
-            planta_rep = planta
+        situacao=request.POST.get('situacao')
+        risco=request.POST.get('riscoIdentificado')
 
-        if ' - ' in local:
-            local_rep = local.split(' - ')[1]
-        else:
-            local_rep = local
+        planta_split=planta.split(' - ')[1]
+        local_split=local.split(' - ')[1]
+        situacao_split=situacao.split(' - ')[1]
+        risco_split=risco.split(' - ')[1]
+
         report = Reports.objects.create(
             user=request.user,
-            planta_reports=planta_rep,
-            local_reports=local_rep,
-            situacao_reports=request.POST.get('situacao'),
-            risco_identificado_reports=request.POST.get('riscoIdentificado'),
+            planta_reports=planta_split,
+            local_reports=local_split,
+            situacao_reports=situacao_split,
+            risco_identificado_reports=risco_split,
             houve_vitimas_reports=request.POST.get('houveVitimas'),
             nivel_danos_reports=request.POST.get('nivelDanos'),
             descricao_reports='teste',
@@ -107,35 +106,47 @@ def form_view(request):
     else:
         
         plantas=Planta.objects.all()
-        
-        context={   
-            'plantas':plantas
-        }
-        
-        return render(request, 'app/form.html',context) 
+
+        return render(request, 'app/form.html',{'plantas':plantas}) 
 
 def form_success_view(request):
     return render(request,'app/success.html')
 
 def verify_admin(request):
-    if request.user.edv=="123123123":
-        request.user.is_superuser=True
-
+    if request.user.is_superuser==True:
         return redirect('main')
     
-def form_refresh_locals(request):
+def form_load_locals(request):
     if request.method == 'POST':
 
             data = json.loads(request.body)
             
             planta_id = data.get('planta_id')
             
-         
             locals = Local.objects.filter(planta=planta_id).values('id', 'nome_local')
             
             return JsonResponse({'locals': list(locals)})
     
-    # Se não for POST, renderize o formulário HTML
+    else:
+        plantas=Planta.objects.all()
+        return render(request, 'app/form.html',{'plantas':plantas})
+    
+
+
+
+
+    
+def form_load_situacoes(request):
+    if request.method == 'POST':
+
+            data = json.loads(request.body)
+            
+            local_id = data.get('local_id')
+            
+            situacoes = Situacao.objects.filter(local=local_id).values('id', 'nome_situacao')
+            
+            return JsonResponse({'situacoes': list(situacoes)})
+    
     else:
         plantas=Planta.objects.all()
         return render(request, 'app/form.html',{'plantas':plantas})
