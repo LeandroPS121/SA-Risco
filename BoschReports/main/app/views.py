@@ -2,8 +2,10 @@ import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Reports, CustomUser
+from .models import Reports, CustomUser,Planta,Local
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
+import json
 
 
 CustomUser = get_user_model()
@@ -75,6 +77,7 @@ def logout_view(request):
     return redirect('login')
 
 def form_view(request):
+    
     if request.method == 'POST':           
         print('1')
         # Cria um novo objeto Reports e salva no banco de dados
@@ -94,8 +97,14 @@ def form_view(request):
         
         return redirect('success')  # Redireciona para uma página de successo após salvar
     else:
-        print('nao eh posto')
-        return render(request, 'app/form.html')
+        
+        plantas=Planta.objects.all()
+        
+        context={   
+            'plantas':plantas
+        }
+        
+        return render(request, 'app/form.html',context) 
 
 def form_success_view(request):
     return render(request,'app/success.html')
@@ -105,3 +114,26 @@ def verify_admin(request):
         request.user.is_superuser=True
 
         return redirect('main')
+    
+def form_local_post(request):
+    if request.method == 'POST':
+
+            # Ler os dados JSON do corpo da requisição
+            data = json.loads(request.body)
+            
+            # Verificar o campo 'source' para identificar a origem da requisição
+            planta_id = data.get('planta_id')
+            
+         
+            locals = Local.objects.filter(planta=planta_id)
+            for local in locals:
+                print(f'Local encontrado: {local.nome_local}, Planta: {local.planta}')
+            
+            return JsonResponse({'message': 'Locais filtrados com sucesso'})
+         
+            
+        
+    
+    # Se não for POST, renderize o formulário HTML
+    else:
+        return render(request, 'app/form.html')

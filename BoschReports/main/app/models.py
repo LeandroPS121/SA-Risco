@@ -19,3 +19,24 @@ class Reports(models.Model):
     nivel_danos_reports = models.CharField(max_length=50)
     descricao_reports = models.TextField(blank=True, null=True)
     
+class Planta(models.Model):
+    nome_planta=models.CharField(max_length=100)
+    pais_planta=models.CharField(max_length=100)
+    estado_planta=models.CharField(max_length=100)
+    cidade_planta=models.CharField(max_length=100)
+    
+class Local(models.Model):
+    planta=models.ForeignKey(Planta,on_delete=models.CASCADE)
+    nome_local=models.CharField(max_length=100)
+    interno_exerno_local=models.CharField(max_length=100)
+    
+class Situacao(models.Model):
+    nome_situacao=models.CharField(max_length=100)
+    descricao_situacao=models.CharField(max_length=255)
+
+class Risco(models.Model):
+    situcao=models.ForeignKey(Situacao,on_delete=models.CASCADE)
+    nome_risco=models.CharField(max_length=100)
+    descricao_risco=models.CharField(max_length=255)
+    
+    

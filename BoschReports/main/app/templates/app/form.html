@@ -22,9 +22,11 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="planta"><ast class="text-danger">*</ast>Planta:</label>
-                 <select class="form-control" id="planta" name="planta" onchange='showLocals()'>
+                 <select class="form-control" id="planta" name="planta" onchange='refreshLocals()'>
                     <option value="--" selected>--</option>
-                    <option value="4">4 - Joinville</option>
+                    {% for planta in plantas %}
+                    <option value="{{planta.id}}" id="{{planta.id}}">{{planta.id}} - {{planta.nome_planta}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">
