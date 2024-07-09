@@ -9,6 +9,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('main/',views.main_admin_view, name='main'),
     path('form/success/',views.form_success_view,name='success'),
-    path('form/lp/',views.form_local_post,name='locals_post')
+    path('form/lp/',views.form_refresh_locals,name='locals_post')
 ]
 

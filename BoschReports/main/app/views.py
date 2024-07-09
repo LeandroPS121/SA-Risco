@@ -79,21 +79,29 @@ def logout_view(request):
 def form_view(request):
     
     if request.method == 'POST':           
-        print('1')
         # Cria um novo objeto Reports e salva no banco de dados
+        planta = request.POST.get('planta', '')
+        local = request.POST.get('local', '')
+        if ' - ' in planta:
+            planta_rep = planta.split(' - ')[1]
+        else:
+            planta_rep = planta
+
+        if ' - ' in local:
+            local_rep = local.split(' - ')[1]
+        else:
+            local_rep = local
         report = Reports.objects.create(
             user=request.user,
-            planta_reports=request.POST.get('planta'),
-            local_reports=request.POST.get('local'),
+            planta_reports=planta_rep,
+            local_reports=local_rep,
             situacao_reports=request.POST.get('situacao'),
             risco_identificado_reports=request.POST.get('riscoIdentificado'),
             houve_vitimas_reports=request.POST.get('houveVitimas'),
             nivel_danos_reports=request.POST.get('nivelDanos'),
             descricao_reports='teste',
         )
-        print('2')
         report.save()
-        print('3')
         
         return redirect('success')  # Redireciona para uma página de successo após salvar
     else:
@@ -115,25 +123,19 @@ def verify_admin(request):
 
         return redirect('main')
     
-def form_local_post(request):
+def form_refresh_locals(request):
     if request.method == 'POST':
 
-            # Ler os dados JSON do corpo da requisição
             data = json.loads(request.body)
             
-            # Verificar o campo 'source' para identificar a origem da requisição
             planta_id = data.get('planta_id')
             
          
-            locals = Local.objects.filter(planta=planta_id)
-            for local in locals:
-                print(f'Local encontrado: {local.nome_local}, Planta: {local.planta}')
+            locals = Local.objects.filter(planta=planta_id).values('id', 'nome_local')
             
-            return JsonResponse({'message': 'Locais filtrados com sucesso'})
-         
-            
-        
+            return JsonResponse({'locals': list(locals)})
     
     # Se não for POST, renderize o formulário HTML
     else:
-        return render(request, 'app/form.html')
+        plantas=Planta.objects.all()
+        return render(request, 'app/form.html',{'plantas':plantas})

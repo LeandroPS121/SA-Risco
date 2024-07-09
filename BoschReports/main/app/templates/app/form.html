@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label for="planta"><ast class="text-danger">*</ast>Planta:</label>
                  <select class="form-control" id="planta" name="planta" onchange='refreshLocals()'>
-                    <option value="--" selected>--</option>
+                    <option value="0">--</option>
                     {% for planta in plantas %}
                     <option value="{{planta.id}}" id="{{planta.id}}">{{planta.id}} - {{planta.nome_planta}}</option>
                     {% endfor %}
@@ -58,7 +58,7 @@
                     <option value="grave">Grave</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" id="btn-enviar" class="btn btn-primary" onclick="desactiveButton()">Enviar</button>
         </form>
     </div>
 </body>

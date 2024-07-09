@@ -46,14 +46,19 @@
                     </tbody>
                 </table>
                 <div class="row d-flex align-items-center justify-content-between mx-0">
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="row">
-                            <button type="button" class="col-5 m-2 btn btn-danger" onclick="excluirSelecionados()">Excluir Seleção</button>
-                            <button type="button" class="col-5 m-2 btn btn-warning" onclick="editarSelecionados()">Editar Seleção</button>
+                            <div class="col-6 d-flex align-items-center justify-content-center">
+                                <button type="button" class="col-4 m-1 btn btn-danger" onclick="excluirSelecionados()">Excluir Seleção</button>
+                                <button type="button" class="col-4 m-1 btn btn-success" onclick="editarSelecionados()">Editar Seleção</button>
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-end">
+                                <div class="col-1 form-check d-flex justify-content-center position-relative my-4">
+                                    <input class="form-check checkbox-small" type="checkbox" id="checkTodos">
+                                </div>
+                                <label>Selecionar Todos</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-1 form-check d-flex justify-content-center position-relative my-4">
-                        <input class="form-check checkbox-small" type="checkbox" id="checkTodos">
                     </div>
                 </div>
             </div>
