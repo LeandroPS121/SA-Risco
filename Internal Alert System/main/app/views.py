@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Reports, CustomUser,Planta,Local,Situacao
+from .models import Reports, CustomUser,Planta,Local,Situacao,Risco
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 import json
@@ -25,7 +25,7 @@ def register_view(request):
 
         # Cria um novo usuário
         user = CustomUser.objects.create_user(
-            username=str(last_name_reg + '_' + first_name_reg),
+            username=str(last_name_reg + '_' + first_name_reg + '_'+ edv_reg),
             first_name=first_name_reg,
             edv=edv_reg,
             last_name=last_name_reg,
@@ -80,25 +80,15 @@ def form_view(request):
     
     if request.method == 'POST':           
         # Cria um novo objeto Reports e salva no banco de dados
-        planta = request.POST.get('planta', '')
-        local = request.POST.get('local', '')
-        situacao=request.POST.get('situacao')
-        risco=request.POST.get('riscoIdentificado')
-
-        planta_split=planta.split(' - ')[1]
-        local_split=local.split(' - ')[1]
-        situacao_split=situacao.split(' - ')[1]
-        risco_split=risco.split(' - ')[1]
-
         report = Reports.objects.create(
-            user=request.user,
-            planta_reports=planta_split,
-            local_reports=local_split,
-            situacao_reports=situacao_split,
-            risco_identificado_reports=risco_split,
-            houve_vitimas_reports=request.POST.get('houveVitimas'),
-            nivel_danos_reports=request.POST.get('nivelDanos'),
-            descricao_reports='teste',
+        user=request.user,
+        planta_reports = request.POST.get('planta'),
+        local_reports = request.POST.get('local'),
+        situacao_reports=request.POST.get('situacao'),
+        risco_identificado_reports=request.POST.get('riscoIdentificado'),
+        houve_vitimas_reports=request.POST.get('houveVitimas'),
+        nivel_danos_reports=request.POST.get('nivelDanos'),
+        descricao_reports='teste'
         )
         report.save()
         
@@ -116,12 +106,16 @@ def verify_admin(request):
     if request.user.is_superuser==True:
         return redirect('main')
     
+
+
 def form_load_locals(request):
     if request.method == 'POST':
 
             data = json.loads(request.body)
             
             planta_id = data.get('planta_id')
+
+            print('id local: '+planta_id)
             
             locals = Local.objects.filter(planta=planta_id).values('id', 'nome_local')
             
@@ -146,6 +140,21 @@ def form_load_situacoes(request):
             situacoes = Situacao.objects.filter(local=local_id).values('id', 'nome_situacao')
             
             return JsonResponse({'situacoes': list(situacoes)})
+    
+    else:
+        plantas=Planta.objects.all()
+        return render(request, 'app/form.html',{'plantas':plantas})
+    
+def form_load_riscos(request):
+    if request.method == 'POST':
+
+            data = json.loads(request.body)
+            
+            situacao_id = data.get('situacao_id')
+            
+            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_situacao')
+            
+            return JsonResponse({'riscos': list(riscos)})
     
     else:
         plantas=Planta.objects.all()

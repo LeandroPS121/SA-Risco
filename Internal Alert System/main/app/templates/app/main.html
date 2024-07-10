@@ -34,7 +34,7 @@
                         {% for data in reports %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ data.user.username }}</td>
+                            <td>{{ data.user.last_name }}_{{ data.user.first_name }}</td>
                             <td>{{ data.user.edv }}</td>
                             <td>{{ data.risco_identificado_reports }}</td>
                             <td>{{ data.area }}</td>

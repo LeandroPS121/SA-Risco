@@ -11,12 +11,14 @@ function getCSRFToken() {
     return '';
 }
 
-
-
-function desactiveButton(){
-    let botao = document.getElementById('btn-enviar')
+function desactiveButton(btnId){
+    let botao = document.getElementById('btnId')
     botao.disable = true;
-    setTimeout(function(){
+    setInterval(function(){
         botao.disable = false;
     }, 5000);
 }
+
+var formulario = document.getElementById('myForm');
+formulario.planta.textContent;
+document.getElementsByTagName("<code>")

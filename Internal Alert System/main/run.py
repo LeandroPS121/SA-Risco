@@ -5,7 +5,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'main.settings')
 django.setup()
 
-from app.models import Planta,Local,Reports,Situacao
+from app.models import Planta,Local,Reports,Situacao,Risco
 
 def adicionar_planta(nome, pais, estado, cidade):
     planta = Planta(nome_planta=nome, pais_planta=pais, estado_planta=estado,cidade_planta=cidade)
@@ -21,5 +21,7 @@ def adicionar_situacao(local_id,nome,descricao):
     situacao=Situacao(local=Local.objects.get(id=local_id),nome_situacao=nome,descricao_situacao=descricao)
     situacao.save()
 
-# adicionar_situacao(6,'Sistema de ventilação e ar condicionado defeituoso','Um sistema de ventilação e ar condicionado defeituoso '
-#                    +'impede a regulação eficaz da temperatura e da qualidade do ar, impactando adversamente o conforto e a saúde dos usuários do espaço.')
+def adicionar_risco(situacao_id,nome,descricao):
+    risco=Risco(situacao=Situacao.objects.get(id=situacao_id),nome_risco=nome,descricao_risco=descricao)
+
+

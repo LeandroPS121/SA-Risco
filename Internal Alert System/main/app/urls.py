@@ -11,6 +11,7 @@ urlpatterns = [
     path('form/success/',views.form_success_view,name='success'),
     path('form/ll/',views.form_load_locals,name='load_locals'),
     path('form/ls/',views.form_load_situacoes,name='load_situacoes'),
+    path('form/lr/',views.form_load_riscos,name='load_riscos'),
 
 ]
 
