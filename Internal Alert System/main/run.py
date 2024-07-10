@@ -23,5 +23,11 @@ def adicionar_situacao(local_id,nome,descricao):
 
 def adicionar_risco(situacao_id,nome,descricao):
     risco=Risco(situacao=Situacao.objects.get(id=situacao_id),nome_risco=nome,descricao_risco=descricao)
+    risco.save()
+
+adicionar_risco(1,'O sistema de ar condicionado faz um barulho constante e alto.','...')
+adicionar_risco(1,'O sistema de ar condicionado está pingando água, criando poças no chão.','...') 
+adicionar_risco(1,'A temperatura do ar condicionado varia constantemente.','...') 
+
 
 

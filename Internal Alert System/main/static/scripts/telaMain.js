@@ -18,10 +18,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Adicionar eventos para os checkboxes individuais
     for (let i = 0; i < checkboxes.length; i++) {
+
+        var checkboxesIds=[]
+
         checkboxes[i].addEventListener('click', function (event) {
             event.stopPropagation();
             const row = this.closest('tr');
             if (this.checked) {
+
+                checkboxesIds.push(row.id);
+                
+                for(let i = 0; i < checkboxesIds.length; i++){
+                    alert(checkboxesIds[i])
+                }
+
                 row.classList.add('selected');
             } else {
                 row.classList.remove('selected');
@@ -33,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const checkbox = this.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             if (checkbox.checked) {
+
                 this.classList.add('selected');
             } else {
                 this.classList.remove('selected');
@@ -94,5 +105,9 @@ function filtrarTabela() {
             trs[i].style.display = 'none';
         }
     }
+}
+
+function removeCheckboxesIds(ids){
+
 }
 verificaDadosPlanilha();

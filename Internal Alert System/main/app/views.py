@@ -145,14 +145,17 @@ def form_load_situacoes(request):
         plantas=Planta.objects.all()
         return render(request, 'app/form.html',{'plantas':plantas})
     
+    
 def form_load_riscos(request):
     if request.method == 'POST':
 
             data = json.loads(request.body)
             
             situacao_id = data.get('situacao_id')
+
+            print("id situacao: "+situacao_id)
             
-            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_situacao')
+            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_risco')
             
             return JsonResponse({'riscos': list(riscos)})
     

@@ -36,7 +36,7 @@ class Situacao(models.Model):
     descricao_situacao=models.CharField(max_length=255)
 
 class Risco(models.Model):
-    situcao=models.ForeignKey(Situacao,on_delete=models.CASCADE)
+    situacao=models.ForeignKey(Situacao,on_delete=models.CASCADE)
     nome_risco=models.CharField(max_length=100)
     descricao_risco=models.CharField(max_length=255)
     

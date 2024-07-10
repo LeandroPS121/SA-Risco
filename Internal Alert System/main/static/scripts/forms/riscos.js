@@ -1,5 +1,9 @@
 function loadRiscos() {
-    selectedId = document.getElementById('situacao').value
+    
+    var selectedElement = document.getElementById('situacao');
+    var selectedOption = selectedElement.options[selectedElement.selectedIndex];
+    var selectedId = selectedOption.getAttribute('name');
+
     fetch('/IAS/form/lr/', {
         method: 'POST',
         headers: {
@@ -16,11 +20,10 @@ function loadRiscos() {
         })
         .then(data => {
             riscos = data.riscos;
-            let options = "<option value='0'>--</option>\n";
-            // alert("riscos: "+riscos)
+            let options = "<option name='0'>--</option>\n";
             riscos.forEach(function (item) {
                 console.log('nome: ' + item.nome_risco)
-                options += "<option value=" + item.id + ">" + item.id + " - " + item.nome_risco + "</option>\n"
+                options += "<option id='" + item.id + "' name='" + item.id + "'>" + item.id + " - " + item.nome_risco + "</option>\n"
             })
             document.getElementById('risco').innerHTML = options;
         })

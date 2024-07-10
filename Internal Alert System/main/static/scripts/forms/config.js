@@ -12,13 +12,19 @@ function getCSRFToken() {
 }
 
 function desactiveButton(btnId){
-    let botao = document.getElementById('btnId')
-    botao.disable = true;
+    let botao = document.getElementById(btnId)
+    botao.disabled = true;
     setInterval(function(){
-        botao.disable = false;
+        botao.disabled = false;
     }, 5000);
 }
 
-var formulario = document.getElementById('myForm');
-formulario.planta.textContent;
-document.getElementsByTagName("<code>")
+function verificaVitima(){
+    let nivelDanos = document.getElementById('nivelDanos');
+    let houveVitima = document.getElementById("houveVitimas").value;
+    let statusBtn = false;
+    if (houveVitima == "nao") {
+        statusBtn = true;
+    }
+    nivelDanos.disabled = statusBtn;
+}

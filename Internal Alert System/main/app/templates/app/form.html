@@ -11,6 +11,7 @@
     <script src="{% static 'scripts/includes.js' %}"></script>
     <script src="{% static 'scripts/forms/locals.js' %}"></script>
     <script src="{% static 'scripts/forms/situacoes.js' %}"></script>
+    <script src="{% static 'scripts/forms/riscos.js' %}"></script>
     <script src="{% static 'scripts/forms/teste.js' %}"></script>
     <script src="{% static 'scripts/forms/config.js' %}"></script>
     <style>
@@ -26,7 +27,7 @@
             <div class="form-group">
                 <label for="planta"><ast class="text-danger">*</ast>Planta:</label>
                  <select class="form-control" id="planta" name="planta" onchange='loadLocals()'>
-                    <option name="0" data-text="default">--</option>
+                    <option name="0">--</option>
                     {% for planta in plantas %}
                     <option id="{{planta.id}}" name="{{planta.id}}">{{forloop.counter}} - {{planta.nome_planta}}</option>
                     {% endfor %}
@@ -40,26 +41,27 @@
             </div>
             <div class="form-group">
                 <label for="situacao"><ast class="text-danger">*</ast>Situação:</label>
-                <select class="form-control" id="situacao" name="situacao">   
+                <select class="form-control" id="situacao" name="situacao" onchange='loadRiscos()'>   
                     <option name="0">--</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="riscoIdentificado"><ast class="text-danger">*</ast>Risco identificado:</label>
-                <select class="form-control" id="risco-identificado" name="riscoIdentificado">   
-                    <option name="0">Risco</option>
+                <select class="form-control" id="risco" name="riscoIdentificado">
+                    <option name="0">--</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="houveVitimas"><ast class="text-danger">*</ast>Houve vítima(s)?:</label>
-                <select class="form-control" id="houveVitimas" name="houveVitimas">
-                    <option value="sim">Sim</option>
-                    <option value="nao" selected>Não</option>
+                <select class="form-control" id="houveVitimas" name="houveVitimas" onchange="verificaVitima(this.id)">
+                    <option value="sim" selected>Sim</option>
+                    <option value="nao">Não</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="nivelDanos">Nível de danos:</label>
                 <select class="form-control" id="nivelDanos" name="nivelDanos">
+                    <option value="0">--</option>
                     <option value="leve" selected>Leve</option>
                     <option value="medio">Médio</option>
                     <option value="grave">Grave</option>
