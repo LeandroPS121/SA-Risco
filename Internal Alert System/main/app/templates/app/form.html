@@ -26,8 +26,8 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="planta"><ast class="text-danger">*</ast>Planta:</label>
-                 <select class="form-control" id="planta" name="planta" onchange='loadLocals()'>
-                    <option name="0">--</option>
+                 <select required class="form-control" id="planta" name="planta" onchange='loadLocals()'>
+                    <option value="" name="0" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                     {% for planta in plantas %}
                     <option id="{{planta.id}}" name="{{planta.id}}">{{forloop.counter}} - {{planta.nome_planta}}</option>
                     {% endfor %}
@@ -35,20 +35,20 @@
             </div>
             <div class="form-group">
                 <label for="local"><ast class="text-danger">*</ast>Local:</label>
-                <select class="form-control" id="local" name="local" onchange='loadSituacoes()'>   
-                    <option name="0">--</option>
+                <select required class="form-control" id="local" name="local" onchange='loadSituacoes()'>   
+                    <option value="" name="0" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                 </select>
             </div>
             <div class="form-group">
                 <label for="situacao"><ast class="text-danger">*</ast>Situação:</label>
-                <select class="form-control" id="situacao" name="situacao" onchange='loadRiscos()'>   
-                    <option name="0">--</option>
+                <select required class="form-control" id="situacao" name="situacao" onchange='loadRiscos()'>   
+                    <option value="" name="0" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                 </select>
             </div>
             <div class="form-group">
                 <label for="riscoIdentificado"><ast class="text-danger">*</ast>Risco identificado:</label>
-                <select class="form-control" id="risco" name="riscoIdentificado">
-                    <option name="0">--</option>
+                <select required class="form-control" id="risco" name="riscoIdentificado">
+                    <option value="" name="0" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                 </select>
             </div>
             <div class="form-group">
@@ -58,11 +58,11 @@
                     <option value="nao">Não</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="form-nivel-dano">
                 <label for="nivelDanos">Nível de danos:</label>
-                <select class="form-control" id="nivelDanos" name="nivelDanos">
-                    <option value="0">--</option>
-                    <option value="leve" selected>Leve</option>
+                <select required class="form-control" id="nivelDanos" name="nivelDanos">
+                    <option value="" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
+                    <option value="leve">Leve</option>
                     <option value="medio">Médio</option>
                     <option value="grave">Grave</option>
                 </select>

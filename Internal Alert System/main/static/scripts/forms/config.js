@@ -16,15 +16,20 @@ function desactiveButton(btnId){
     botao.disabled = true;
     setInterval(function(){
         botao.disabled = false;
-    }, 5000);
+    }, 1000);
 }
 
 function verificaVitima(){
     let nivelDanos = document.getElementById('nivelDanos');
     let houveVitima = document.getElementById("houveVitimas").value;
-    let statusBtn = false;
+    // let statusBtn = false;
+    let formDanos = document.getElementById('form-nivel-dano');
+    formDanos.classList.remove('d-none');
     if (houveVitima == "nao") {
-        statusBtn = true;
+        formDanos.classList.add('d-none');
+        // nivelDanos.value = "Sem vitimas"
+        alert(nivelDanos.index)
+        // statusBtn = true; <- opção para caso nao queira sumir com o input
     }
-    nivelDanos.disabled = statusBtn;
+    // nivelDanos.disabled = statusBtn;
 }
