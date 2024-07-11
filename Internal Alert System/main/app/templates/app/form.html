@@ -14,6 +14,7 @@
     <script src="{% static 'scripts/forms/riscos.js' %}"></script>
     <script src="{% static 'scripts/forms/teste.js' %}"></script>
     <script src="{% static 'scripts/forms/config.js' %}"></script>
+    <script src="{% static 'scripts/forms/getArea.js' %}"></script>
     <style>
     
     </style>
@@ -53,21 +54,23 @@
             </div>
             <div class="form-group">
                 <label for="houveVitimas"><ast class="text-danger">*</ast>Houve vítima(s)?:</label>
-                <select class="form-control" id="houveVitimas" name="houveVitimas" onchange="verificaVitima(this.id)">
-                    <option value="sim" selected>Sim</option>
+                <select required class="form-control" id="houveVitimas" name="houveVitimas" onchange="verificaVitima(this.id)">
+                    <option value="sim">Sim</option>
                     <option value="nao">Não</option>
                 </select>
             </div>
             <div class="form-group" id="form-nivel-dano">
                 <label for="nivelDanos">Nível de danos:</label>
-                <select required class="form-control" id="nivelDanos" name="nivelDanos">
+                <select class="form-control" id="nivelDanos" name="nivelDanos">
                     <option value="" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                     <option value="leve">Leve</option>
                     <option value="medio">Médio</option>
                     <option value="grave">Grave</option>
                 </select>
             </div>
-            <button type="submit" id="btn-enviar" class="btn btn-primary" onclick="desactiveButton(this.id)">Enviar</button>
+            <div name='area' id='validarArea' hidden='true'></div>
+            <button type="submit" id="btn-enviar" class="btn btn-primary">Enviar</button>
+            <input type="button" id="a" class="btn btn-primary" onclick='rapidao()' value='tchurusbangos'></input>
         </form>
     </div>
 </body>

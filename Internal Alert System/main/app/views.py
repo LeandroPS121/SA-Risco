@@ -137,7 +137,7 @@ def form_load_situacoes(request):
             
             local_id = data.get('local_id')
             
-            situacoes = Situacao.objects.filter(local=local_id).values('id', 'nome_situacao')
+            situacoes = Situacao.objects.filter(local=local_id).values('id', 'nome_situacao','verifica_area_situacao')
             
             return JsonResponse({'situacoes': list(situacoes)})
     
@@ -155,7 +155,7 @@ def form_load_riscos(request):
 
             print("id situacao: "+situacao_id)
             
-            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_risco')
+            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_risco','verifica_area_risco')
             
             return JsonResponse({'riscos': list(riscos)})
     

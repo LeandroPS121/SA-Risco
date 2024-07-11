@@ -33,7 +33,7 @@
                     <tbody>
                         {% for data in reports %}
                         <tr id='{{ data.id }}'>
-                            <td>{{ data.id }}</td>
+                            <td>{{ forloop.counter }}</td>
                             <td>{{ data.user.last_name }}_{{ data.user.first_name }}</td>
                             <td>{{ data.user.edv }}</td>
                             <td>{{ data.risco_identificado_reports }}</td>
@@ -51,7 +51,7 @@
                         <div class="row">
                             <div class="col-6 d-flex align-items-center justify-content-center">
                                 <button type="button" class="col-4 m-1 btn btn-danger" onclick="excluirSelecionados()">Excluir Seleção</button>
-                                <button type="button" class="col-4 m-1 btn btn-success" onclick="editarSelecionados()">Editar Seleção</button>
+                                <button type="button" class="col-4 m-1 btn btn-success" onclick="editarSelecionados()">Alterar Área</button>
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-end">
                                 <div class="col-1 form-check d-flex justify-content-center position-relative my-4">

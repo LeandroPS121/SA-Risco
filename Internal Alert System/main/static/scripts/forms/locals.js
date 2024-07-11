@@ -20,7 +20,7 @@ function loadLocals() {
             })
             .then(data => {
                 let locals = data.locals;
-                let options = "<option name='0'>--</option>\n";
+                let options = "<option name='0' selected disabled>--</option>\n";
                 locals.forEach(item => {
                     options += "<option id='" + item.id + "' name='" + item.id + "'>" + item.id + " - " + item.nome_local + "</option>\n";
                 });

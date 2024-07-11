@@ -3,14 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = table.querySelectorAll('tbody input[type="checkbox"]');
     const checkTodos = document.getElementById('checkTodos');
 
+    var checkBoxesIds=[];
+
     // Adicionar evento ao checkbox "Selecionar Todos"
     checkTodos.addEventListener('change', function () {
         checkboxes.forEach(function (checkbox) {
             checkbox.checked = checkTodos.checked;
             const row = checkbox.closest('tr');
             if (checkTodos.checked) {
+                addCheckboxesIds(row);
                 row.classList.add('selected');
             } else {
+                removeCheckboxesIds(row);
                 row.classList.remove('selected');
             }
         });
@@ -19,22 +23,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // Adicionar eventos para os checkboxes individuais
     for (let i = 0; i < checkboxes.length; i++) {
 
-        var checkboxesIds=[]
 
         checkboxes[i].addEventListener('click', function (event) {
             event.stopPropagation();
             const row = this.closest('tr');
-            if (this.checked) {
-
-                checkboxesIds.push(row.id);
-                
-                for(let i = 0; i < checkboxesIds.length; i++){
-                    alert(checkboxesIds[i])
-                }
-
+            if (this.checked) {                
                 row.classList.add('selected');
+                addCheckboxesIds(row)
             } else {
                 row.classList.remove('selected');
+                removeCheckboxesIds(row)
+                debugRestantes(row)
             }
         });
 
@@ -42,13 +41,38 @@ document.addEventListener("DOMContentLoaded", function () {
         checkboxes[i].closest('tr').addEventListener('click', function () {
             const checkbox = this.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
-            if (checkbox.checked) {
-
-                this.classList.add('selected');
+            const row = checkbox.closest('tr');
+            if (checkbox.checked) {                
+                row.classList.add('selected');
+                addCheckboxesIds(row)
             } else {
-                this.classList.remove('selected');
+                row.classList.remove('selected');
+                removeCheckboxesIds(row)
+                debugRestantes(row)
             }
         });
+    }
+    function addCheckboxesIds(row){
+
+        checkBoxesIds.push(row.id);
+    
+    }
+    
+    function removeCheckboxesIds(row){
+        for(let i = 0; i < checkBoxesIds.length; i++){
+            if(row.id==checkBoxesIds[i]){
+                checkBoxesIds.splice(i,1);
+            }
+        }      
+        
+    }
+
+    function debugRestantes(){
+        rest='restantes: \n\n'
+        for(let i = 0; i < checkBoxesIds.length; i++){
+            rest+=i+': '+checkBoxesIds[i]+'\n'
+    }
+    alert(rest)
     }
 });
 
@@ -107,7 +131,6 @@ function filtrarTabela() {
     }
 }
 
-function removeCheckboxesIds(ids){
 
-}
+
 verificaDadosPlanilha();
