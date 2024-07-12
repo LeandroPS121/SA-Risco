@@ -17,41 +17,68 @@
         </div>
         <div class="row mx-0 conteudo">
             <div class="table-container">
-                <table class="table table-hover table-bordered text-center col-12" id="tabela-relatorios">
-                    <thead class="bg-primary text-light">
-                        <tr>
-                            <th class="col-1">ID</th>
-                            <th class="col-2">Nome</th>
-                            <th class="col-1">EDV</th>
-                            <th class="col-4">Risco Identificado</th>
-                            <th class="col-2">Área Responsável</th>
-                            <th class="col-1">Planta</th>
-                            <th class="col-1">Local</th>
-                            <th class="col-1">Selecionar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for data in reports %}
-                        <tr id='{{ data.id }}'>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ data.user.last_name }}_{{ data.user.first_name }}</td>
-                            <td>{{ data.user.edv }}</td>
-                            <td>{{ data.risco_identificado_reports }}</td>
-                            <td>{{ data.area }}</td>
-                            <td>{{ data.planta_reports }}</td>
-                            <td>{{ data.local_reports }}</td>
-                            <td><input type="checkbox" class="checkbox-small" name="relatorios_ids" value="{{ data.id }}"></td>
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
+                <div style="height: 550px; overflow-y: scroll;">
+                    <table class="table table-hover table-bordered text-center col-12" id="tabela-relatorios">
+                        <thead class="bg-primary text-light">
+                            <tr>
+                                <th class="col-1">ID</th>
+                                <th class="col-2">Nome</th>
+                                <th class="col-1">EDV</th>
+                                <th class="col-4">Risco Identificado</th>
+                                <th class="col-2">Área Responsável</th>
+                                <th class="col-1">Planta</th>
+                                <th class="col-1">Local</th>
+                                <th class="col-1">Selecionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in reports %}
+                            <tr id='{{ data.id }}'>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ data.user.last_name }}_{{ data.user.first_name }}</td>
+                                <td>{{ data.user.edv }}</td>
+                                <td>{{ data.risco_identificado_reports }}</td>
+                
+                                {% if data.area_responsavel_reports == 'HSE' %}
+                                    <td name='area'>
+                                        <div class="areaText">
+                                            {{ data.area_responsavel_reports }}
+                                        </div>
+                                        <div class='areaSelect d-none'>
+                                            <select>
+                                                <option selected>HSE</option>
+                                                <option>C/AUP</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                {% endif %}
+                                {% if data.area_responsavel_reports == 'C/AUP' %}
+                                    <td>
+                                        {{ data.area_responsavel_reports }}
+                                        <div class='areaSelect d-none'>
+                                        <select class='areaSelect'>
+                                            <option selected>C/AUP</option>
+                                            <option>HSE</option>
+                                        </select>
+                                        <div>
+                                    </td>
+                                {% endif %}
+                
+                                <td>{{ data.planta_reports }}</td>
+                                <td>{{ data.local_reports }}</td>
+                                <td><input type="checkbox" class="checkbox-small" name="relatorios_ids" value="{{ data.id }}"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>  
+                
                 <div class="row d-flex align-items-center justify-content-between mx-0">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-6 d-flex align-items-center justify-content-center">
                                 <button type="button" class="col-4 m-1 btn btn-danger" onclick="excluirSelecionados()">Excluir Seleção</button>
-                                <button type="button" class="col-4 m-1 btn btn-success" onclick="editarSelecionados()">Alterar Área</button>
+                                <button type="button" class="col-4 m-1 btn btn-success" id='editar'">Editar</button>
                             </div>
                             <div class="col-6 d-flex align-items-center justify-content-end">
                                 <div class="col-1 form-check d-flex justify-content-center position-relative my-4">
@@ -66,5 +93,6 @@
         </div>
     </div>
     <script src="{% static '/scripts/telaMain.js' %}"></script>
+    <script src="{% static '/scripts/editarArea.js' %}"></script>
 </body>
 </html>

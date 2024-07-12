@@ -5,6 +5,9 @@
     width: 20px;
     height: 20px;
 }
+td{
+    height: 60px !important;
+}
 th{
     background-color: #0079db !important;
     color: white !important;
@@ -24,4 +27,27 @@ th{
 }
 .table-container table tbody tr.selected:hover {
     background-color: #e0e0e0; /* Lighter background color on hover for selected rows */
+}
+.table-container {
+    max-height: 800px; /* Defina a altura máxima do contêiner */
+    overflow: auto; /* Adicione rolagem quando o conteúdo exceder a altura máxima */
+}
+
+.table-container table {
+    width: 100%; /* Garanta que a tabela ocupe toda a largura do contêiner */
+    border-collapse: collapse; /* Mesclar bordas da tabela */
+}
+
+.table-container thead {
+    background-color: #007bff; /* Cor de fundo do cabeçalho */
+    color: #ffffff; /* Cor do texto do cabeçalho */
+    position: sticky; /* Fixar o cabeçalho */
+    top: 0; /* Alinhar o cabeçalho no topo */
+}
+
+.table-container th,
+.table-container td {
+    padding: 8px; /* Espaçamento interno das células */
+    text-align: center; /* Alinhamento central do texto */
+    border: 1px solid #ddd; /* Borda das células */
 }

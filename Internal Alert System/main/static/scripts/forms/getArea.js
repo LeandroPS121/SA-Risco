@@ -1,7 +1,9 @@
-function rapidao(){
-    var selectedElement = document.getElementById('situacao');
-    var selectedOption = selectedElement.options[selectedElement.selectedIndex];
-    var selectedClass = selectedOption.getAttribute('class');
+function definirArea(){
+alert('ok')
+
+    let selectedElement = document.getElementById('situacao');
+    let selectedOption = selectedElement.options[selectedElement.selectedIndex];
+    let selectedClass = selectedOption.getAttribute('class');
 
     situacaoVA=selectedClass;
 
@@ -13,12 +15,17 @@ function rapidao(){
 
     alert(riscoScore)
 
+    let area;
     if(riscoScore==0){
-        document.getElementById('validarArea').textContent='HSE'
+        area='HSE'
+        
     }else if(riscoScore==1){
-        document.getElementById('validarArea').textContent='AVALIAR'
+        area='AVALIAR'
     }else{
-        document.getElementById('validarArea').textContent='C/AUP'
+        area='C/AUP'
     }
-
+    alert( document.getElementById('validarArea').value)
+    document.getElementById('validarArea').value = area;
 }
+
+

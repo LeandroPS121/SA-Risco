@@ -8,9 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Adicionar evento ao checkbox "Selecionar Todos"
     checkTodos.addEventListener('change', function () {
         checkboxes.forEach(function (checkbox) {
-            checkbox.checked = checkTodos.checked;
             const row = checkbox.closest('tr');
-            if (checkTodos.checked) {
+            if (row.style.display != "none"){
+                checkbox.checked = checkTodos.checked;
+            }
+            else if (checkTodos.checked) {
                 addCheckboxesIds(row);
                 row.classList.add('selected');
             } else {
@@ -19,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+  
 
     // Adicionar eventos para os checkboxes individuais
     for (let i = 0; i < checkboxes.length; i++) {
@@ -38,17 +42,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Adiciona evento de clique na linha para ativar/desativar o checkbox
-        checkboxes[i].closest('tr').addEventListener('click', function () {
+        checkboxes[i].closest('tr').addEventListener('click', function (event) {
             const checkbox = this.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
             const row = checkbox.closest('tr');
-            if (checkbox.checked) {                
+            const td= event.target.closest('td:not([name="area"])');
+        
+            
+            if (td) {   
+                checkbox.checked = !checkbox.checked;           
                 row.classList.add('selected');
                 addCheckboxesIds(row)
             } else {
                 row.classList.remove('selected');
-                removeCheckboxesIds(row)
-                debugRestantes(row)
+                removeCheckboxesIds(row);
             }
         });
     }
@@ -94,7 +100,7 @@ function verificaDadosPlanilha(){
     if (tbody.rows.length === 0) {
         const tableContainer = document.querySelector('.table-container');
         const mensagem = document.createElement('div');
-        mensagem.textContent = 'Não há dados na planilha.';
+        mensagem.textContent = 'Não há dados na Tabela.';
         mensagem.classList.add('text-center', 'mt-3', 'text-muted');
         tableContainer.replaceWith(mensagem);
     }

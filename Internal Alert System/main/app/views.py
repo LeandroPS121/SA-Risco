@@ -80,6 +80,8 @@ def form_view(request):
     
     if request.method == 'POST':           
         # Cria um novo objeto Reports e salva no banco de dados
+
+
         report = Reports.objects.create(
         user=request.user,
         planta_reports = request.POST.get('planta'),
@@ -88,6 +90,7 @@ def form_view(request):
         risco_identificado_reports=request.POST.get('riscoIdentificado'),
         houve_vitimas_reports=request.POST.get('houveVitimas'),
         nivel_danos_reports=request.POST.get('nivelDanos'),
+        area_responsavel_reports=request.POST.get('areaResponsavel'),
         descricao_reports='teste'
         )
         report.save()

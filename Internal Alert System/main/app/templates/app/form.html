@@ -42,13 +42,13 @@
             </div>
             <div class="form-group">
                 <label for="situacao"><ast class="text-danger">*</ast>Situação:</label>
-                <select required class="form-control" id="situacao" name="situacao" onchange='loadRiscos()'>   
+                <select required class="form-control" id="situacao" name="situacao" onchange='loadRiscos(), definirArea()'>   
                     <option value="" name="0" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                 </select>
             </div>
             <div class="form-group">
                 <label for="riscoIdentificado"><ast class="text-danger">*</ast>Risco identificado:</label>
-                <select required class="form-control" id="risco" name="riscoIdentificado">
+                <select required class="form-control" id="risco" name="riscoIdentificado" onchange='definirArea()'>
                     <option value="" name="0" selected disabled>--</option> <!--tirei o value "0" para funcionar o required-->
                 </select>
             </div>
@@ -68,9 +68,8 @@
                     <option value="grave">Grave</option>
                 </select>
             </div>
-            <div name='area' id='validarArea' hidden='true'></div>
+            <input type='text' name='areaResponsavel' id='validarArea' hidden='true'></input>
             <button type="submit" id="btn-enviar" class="btn btn-primary">Enviar</button>
-            <input type="button" id="a" class="btn btn-primary" onclick='rapidao()' value='tchurusbangos'></input>
         </form>
     </div>
 </body>
