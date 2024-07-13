@@ -165,3 +165,23 @@ def form_load_riscos(request):
     else:
         plantas=Planta.objects.all()
         return render(request, 'app/form.html',{'plantas':plantas})
+    
+def main_delete_reports(request):
+    if request.method == 'POST':
+
+            data = json.loads(request.body)
+            
+            idsToRemove = data.get('data')
+            
+            print(len(idsToRemove))
+            
+            for i in range(len(idsToRemove)):
+                
+                Reports.objects.filter(id=idsToRemove[i]).delete()
+                
+            
+            return JsonResponse({'msg': 'ok'})
+
+    else:
+        plantas=Planta.objects.all()
+        return render(request, 'app/form.html',{'plantas':plantas})

@@ -1,5 +1,6 @@
 // Função para entrar no modo de edição
 function entrarModoEdicao() {
+    document.getElementById('excluir').disabled = true;  
     const botaoEdicao = document.getElementById('editar');
     const itensSelect = document.querySelectorAll('.areaSelect');
     const itensText = document.querySelectorAll('.areaText');
@@ -22,6 +23,10 @@ function entrarModoEdicao() {
 
 // Função para cancelar a edição
 function cancelarEdicao() {
+    if(checkBoxesIds.length>0){
+
+        document.getElementById('excluir').disabled = false;  
+    }
     const botaoEdicao = document.getElementById('editar');
     const itensSelect = document.querySelectorAll('.areaSelect');
     const itensText = document.querySelectorAll('.areaText');

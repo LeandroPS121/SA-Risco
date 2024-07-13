@@ -1,20 +1,28 @@
+function debugRestantes(){
+    rest='restantes: \n\n'
+    for(let i = 0; i < checkBoxesIds.length; i++){
+        rest+=i+': '+checkBoxesIds[i]+'\n'
+}
+alert(rest)
+}
+var checkBoxesIds=[];
+
 document.addEventListener("DOMContentLoaded", function () {
     const table = document.getElementById('tabela-relatorios');
     const checkboxes = table.querySelectorAll('tbody input[type="checkbox"]');
     const checkTodos = document.getElementById('checkTodos');
 
-    var checkBoxesIds=[];
 
     // Adicionar evento ao checkbox "Selecionar Todos"
     checkTodos.addEventListener('change', function () {
+        verificaSelecoes();
         checkboxes.forEach(function (checkbox) {
             const row = checkbox.closest('tr');
             if (row.style.display != "none"){
                 checkbox.checked = checkTodos.checked;
-            }
-            else if (checkTodos.checked) {
                 addCheckboxesIds(row);
                 row.classList.add('selected');
+                debugRestantes(row);
             } else {
                 removeCheckboxesIds(row);
                 row.classList.remove('selected');
@@ -30,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         checkboxes[i].addEventListener('click', function (event) {
             event.stopPropagation();
+            verificaSelecoes();
             const row = this.closest('tr');
             if (this.checked) {                
                 row.classList.add('selected');
@@ -46,16 +55,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const checkbox = this.querySelector('input[type="checkbox"]');
             const row = checkbox.closest('tr');
             const td= event.target.closest('td:not([name="area"])');
-        
+            
             
             if (td) {   
-                checkbox.checked = !checkbox.checked;           
-                row.classList.add('selected');
-                addCheckboxesIds(row)
-            } else {
-                row.classList.remove('selected');
-                removeCheckboxesIds(row);
-            }
+                verificaSelecoes();
+                checkbox.checked = !checkbox.checked;  
+                
+                if(checkbox.checked){
+                    row.classList.add('selected');
+                    addCheckboxesIds(row)
+                } else {
+                    row.classList.remove('selected');
+                    removeCheckboxesIds(row);
+                }
+                }
         });
     }
     function addCheckboxesIds(row){
@@ -72,14 +85,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }      
         
     }
+    
+    function verificaSelecoes(){
 
-    function debugRestantes(){
-        rest='restantes: \n\n'
-        for(let i = 0; i < checkBoxesIds.length; i++){
-            rest+=i+': '+checkBoxesIds[i]+'\n'
+        if(checkBoxesIds.length<=0 && document.getElementById("editar").textContent=='Editar'){
+            document.getElementById('excluir').disabled = false;  
+        }else{
+            
+        }
     }
-    alert(rest)
-    }
+
 });
 
 // Função para excluir linhas selecionadas
@@ -136,7 +151,5 @@ function filtrarTabela() {
         }
     }
 }
-
-
 
 verificaDadosPlanilha();
