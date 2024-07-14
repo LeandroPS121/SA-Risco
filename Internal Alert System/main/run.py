@@ -24,4 +24,5 @@ def adicionar_situacao(local_id,nome,descricao,vas):
 def adicionar_risco(situacao_id,nome,descricao,var):
     risco=Risco(situacao=Situacao.objects.get(id=situacao_id),nome_risco=nome,descricao_risco=descricao,verifica_area_risco=var)
     risco.save()
-    
+
+CustomUser.objects.filter(edv=11111111).delete()
