@@ -21,8 +21,9 @@ function loadLocals() {
             .then(data => {
                 let locals = data.locals;
                 let options = "<option name='0' selected disabled>--</option>\n";
+                let contador = 0; 
                 locals.forEach(item => {
-                    options += "<option id='" + item.id + "' name='" + item.id + "'>" + item.id + " - " + item.nome_local + "</option>\n";
+                    options += "<option id='" + item.id + "' name='" + item.id + "'>" + (contador+=1) + " - " + item.nome_local + "</option>\n";
                 });
 
                 // Atualiza o HTML do select 'local' após todas as opções serem geradas

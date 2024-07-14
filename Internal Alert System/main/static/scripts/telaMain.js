@@ -15,20 +15,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Adicionar evento ao checkbox "Selecionar Todos"
     checkTodos.addEventListener('change', function () {
-        verificaSelecoes();
         checkboxes.forEach(function (checkbox) {
             const row = checkbox.closest('tr');
-            if (row.style.display != "none"){
-                checkbox.checked = checkTodos.checked;
-                addCheckboxesIds(row);
-                row.classList.add('selected');
-                debugRestantes(row);
+            if(row.style.display !== 'none'){
+            checkbox.checked = checkTodos.checked;
+            if(checkbox.checked){
+                let existsId= verifica_id(row);
+                if(!existsId){
+                    row.classList.add('selected');
+                    addCheckboxesIds(row);
+                }
             } else {
                 removeCheckboxesIds(row);
                 row.classList.remove('selected');
             }
+            
+            verificaSelecoes();
+        }
         });
     });
+
+    function verifica_id(row){
+        for(let i=0;i < checkBoxesIds.length; i++){
+            if(checkBoxesIds[i]==row.id){
+                return true;
+            }
+        }
+        return false;
+    }
 
   
 
@@ -38,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         checkboxes[i].addEventListener('click', function (event) {
             event.stopPropagation();
-            verificaSelecoes();
             const row = this.closest('tr');
             if (this.checked) {                
                 row.classList.add('selected');
@@ -46,10 +59,10 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 row.classList.remove('selected');
                 removeCheckboxesIds(row)
-                debugRestantes(row)
             }
+            verificaSelecoes();
         });
-
+        
         // Adiciona evento de clique na linha para ativar/desativar o checkbox
         checkboxes[i].closest('tr').addEventListener('click', function (event) {
             const checkbox = this.querySelector('input[type="checkbox"]');
@@ -58,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
             
             
             if (td) {   
-                verificaSelecoes();
                 checkbox.checked = !checkbox.checked;  
                 
                 if(checkbox.checked){
@@ -68,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     row.classList.remove('selected');
                     removeCheckboxesIds(row);
                 }
-                }
+            }
+            verificaSelecoes();
         });
     }
     function addCheckboxesIds(row){
@@ -88,10 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
     
     function verificaSelecoes(){
 
-        if(checkBoxesIds.length<=0 && document.getElementById("editar").textContent=='Editar'){
+        if(checkBoxesIds.length!=0 && document.getElementById("editar").textContent=='Editar'){
             document.getElementById('excluir').disabled = false;  
         }else{
-            
+            document.getElementById('excluir').disabled = true;  
         }
     }
 

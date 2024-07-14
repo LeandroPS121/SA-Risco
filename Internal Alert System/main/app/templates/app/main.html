@@ -37,28 +37,34 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ data.user.last_name }}_{{ data.user.first_name }}</td>
                                 <td>{{ data.user.edv }}</td>
+
                                 <td>{{ data.risco_identificado_reports }}</td>
                 
                                 {% if data.area_responsavel_reports == 'HSE' %}
                                     <td name='area'>
-                                        <div class="areaText">
+                                        <div class="fw-bold">
                                             {{ data.area_responsavel_reports }}
                                         </div>
-                                        <div class='areaSelect d-none'>
-                                            <select>
-                                                <option selected>HSE</option>
-                                                <option>C/AUP</option>
-                                            </select>
-                                        </div>
+                                        
                                     </td>
                                 {% endif %}
                                 {% if data.area_responsavel_reports == 'C/AUP' %}
-                                    <td>
+                                    <td name="area">
+                                        <div class="fw-bold">
                                         {{ data.area_responsavel_reports }}
+                                        </div>
+                                    </td>
+                                {% endif %}
+                                {% if data.area_responsavel_reports == 'AVALIAR'  or data.area_responsavel_reports == 'AMBOS'%}
+                                    <td class="bg-warning-subtle" name="area">
+                                        <div class="areaText fw-bold">
+                                        AMBOS
+                                        </div>
                                         <div class='areaSelect d-none'>
-                                        <select class='areaSelect'>
-                                            <option selected>C/AUP</option>
+                                        <select class="select-change">
+                                            <option selected>AMBOS</option>
                                             <option>HSE</option>
+                                            <option >C/AUP</option>
                                         </select>
                                         <div>
                                     </td>
@@ -78,30 +84,32 @@
                     <div class="col-12 position-relative">
                         <div class="row">
                             <div class="col-8 d-flex align-items-center justify-content-center position-relative align-btns">
-                                <button type="button" class="col-2 m-1 btn btn-primary " id="editar">Editar</button>
-                                <button type="button" class="col-2 m-1 btn btn-success ">Exportar HSE</button>
-                                <button type="button" class="col-2 m-1 btn btn-success " >Exportar C/AUP</button>
+                                <button type="button" class="col-2 m-1 btn btn-primary start-0 position-absolute" id="editar">Editar</button>
+                                <button type="button" class="col-2 m-1 btn btn-success invisible" disabled="true" id="salvarBtn" onclick="obterDadosSelects()">Salvar</button>
+                            
                                 <div  class="col-2 m-1 start-30 position-relative btn-excluir z-3">
-                                    <button type="button" class="btn-2 col-12 m-1 btn btn-danger btn-" id="excluir" onclick="deleteReports()" disabled='true'>Excluir Seleção</button>
+                                    <button type="button" class="btn-2 col-12 m-1 btn btn-danger" id="excluir" onclick="deleteReports()" disabled='true'>Excluir Seleção</button>
                                 </div>
                               
-                            <div class=" col-4 d-flex align-items-center justify-content-end checkTodos-cb end-0 z-1">
-                                <div class="col-0 m-2 form-check d-flex justify-content-center position-relative my-4 end-0">
+                            <div class=" col-4 d-flex align-items-center justify-content-end checkTodos-cb z-1">
+                                <div class="col-2 m-2 form-check d-flex justify-content-center end-0 position-absolute">
                                     <input class="form-check checkbox-small" type="checkbox" id="checkTodos">
                                 </div>
-                                <label>Selecionar Todos</label>
+                                <div>
+                                <label style="position: relative;left:80%;width:140px" class=" align-items-center d-flex justify-content-end checkTodos-cb">Selecionar Todos</label>
+        
                             </div>
                         </div>
                     </div>
                 </div>
                 
             </div>
-            <button type="button" class="col-1 m-1 btn btn-secondary" id="logout">Logout</button>
+            <a class="col-1 m-1 btn btn-secondary" id="logout" href={% url 'logout' %}>Logout</a>
         </div>
     </div>
     <script src="{% static '/scripts/telaMain.js' %}"></script>
-    <script src="{% static '/scripts/editarArea.js' %}"></script>
-        <script src="{% static '/scripts/excluir.js' %}"></script>
-
+    <script src="{% static '/scripts/excluir.js' %}"></script>
+    <script src="{% static '/scripts/editarAreaClient.js' %}"></script>
+    <script src="{% static '/scripts/editarAreaServer.js' %}"></script>
 </body>
 </html>

@@ -133,3 +133,5 @@ AUTHENTICATION_BACKENDS = [
     'app.auth.EDVAuthentication',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+LOGIN_URL = '/IAS/login/' 

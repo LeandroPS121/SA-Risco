@@ -21,10 +21,11 @@ function loadRiscos() {
         .then(data => {
             riscos = data.riscos;
             let options = "<option name='0' selected disabled>--</option>\n";
+            let contador = 0; 
             riscos.forEach(function (item) {
                 console.log('nome: ' + item.nome_risco)
 
-                options += "<option id='" + item.id + "' name='" + item.id + "' class='"+item.verifica_area_risco+"'>" + item.id + " - " + item.nome_risco + "</option>\n"
+                options += "<option id='" + item.id + "' name='" + item.id + "' class='"+item.verifica_area_risco+"'>" + (contador+=1) + " - " + item.nome_risco + "</option>\n"
             })
             document.getElementById('risco').innerHTML = options;
             document.get

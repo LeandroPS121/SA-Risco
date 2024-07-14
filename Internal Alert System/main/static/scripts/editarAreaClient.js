@@ -4,12 +4,15 @@ function entrarModoEdicao() {
     const botaoEdicao = document.getElementById('editar');
     const itensSelect = document.querySelectorAll('.areaSelect');
     const itensText = document.querySelectorAll('.areaText');
+    const salvarBtn= document.getElementById("salvarBtn");
 
     // Altera texto e comportamento do botão
     botaoEdicao.innerText = 'Cancelar';
     botaoEdicao.classList.add('bg-warning');
     botaoEdicao.removeEventListener('click', entrarModoEdicao);
     botaoEdicao.addEventListener('click', cancelarEdicao);
+    salvarBtn.disabled = false;
+    salvarBtn.classList.remove('invisible');
 
     // Exibe selects e oculta textos
     itensSelect.forEach(function (item) {
@@ -30,6 +33,9 @@ function cancelarEdicao() {
     const botaoEdicao = document.getElementById('editar');
     const itensSelect = document.querySelectorAll('.areaSelect');
     const itensText = document.querySelectorAll('.areaText');
+    const salvarBtn= document.getElementById("salvarBtn");
+    salvarBtn.disabled = true;
+    salvarBtn.classList.add('invisible');
 
     // Altera texto e comportamento do botão
     botaoEdicao.innerText = 'Editar';

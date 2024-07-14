@@ -1,5 +1,4 @@
 function definirArea(){
-alert('ok')
 
     let selectedElement = document.getElementById('situacao');
     let selectedOption = selectedElement.options[selectedElement.selectedIndex];
@@ -11,21 +10,20 @@ alert('ok')
     selectedOption = selectedElement.options[selectedElement.selectedIndex];
     selectedClass = selectedOption.getAttribute('class');
 
-    riscoScore=parseInt(situacaoVA+selectedClass);
+    riscoScore=parseInt(parseInt(situacaoVA)+parseInt(selectedClass));
 
-    alert(riscoScore)
 
     let area;
     if(riscoScore==0){
         area='HSE'
         
-    }else if(riscoScore==1){
-        area='AVALIAR'
-    }else{
+    }else if(riscoScore==2){
         area='C/AUP'
+    }else{
+        area='AMBOS'
     }
-    alert( document.getElementById('validarArea').value)
     document.getElementById('validarArea').value = area;
+
 }
 
 
