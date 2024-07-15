@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import Reports, CustomUser,Planta,Local,Situacao,Risco
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 import json
 
 
@@ -24,7 +25,7 @@ def register_view(request):
             return render(request, 'app/register.html', {'erro': True})
 
         # Cria um novo usuário
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username=str(last_name_reg + '_' + first_name_reg + '_'+ edv_reg),
             first_name=first_name_reg,
             edv=edv_reg,
@@ -33,16 +34,20 @@ def register_view(request):
             email=email_reg
         )
         
+        
         return redirect('login')
 
     return render(request, 'app/register.html')
 
 
 
-
+@login_required
 def main_admin_view(request):
-    data = Reports.objects.all()
-    return render(request,'app/main.html',{'reports':data})
+        if request.user.is_superuser:
+            data = Reports.objects.all()
+            return render(request, 'app/main.html', {'reports': data})
+        else:
+            return redirect('logout')
 
 
 
@@ -62,9 +67,10 @@ def login_view(request):
             # Login bem-sucedido
             login(request, user)
 
-            verify_admin(request)
-
-            return redirect('form')  # Redirecionar para a página principal
+            if request.user.is_superuser:
+                return redirect('main')
+            else:
+                return redirect('form')  # Redirecionar para a página principal
         else: 
             return render(request, 'app/login.html',{'erro':True})
     else:
@@ -74,20 +80,39 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('/IAS/login/')
 
+@login_required
 def form_view(request):
     
     if request.method == 'POST':           
         # Cria um novo objeto Reports e salva no banco de dados
+
+        planta_reports = request.POST.get('planta')
+        if planta_reports:
+            planta = planta_reports.split(' - ')[1]  
+
+        local_reports = request.POST.get('local')
+        if local_reports:
+            local = local_reports.split(' - ')[1]
+
+        situacao_reports = request.POST.get('situacao')
+        if situacao_reports:
+            situacao = situacao_reports.split(' - ')[1]
+
+        risco_identificado_reports = request.POST.get('riscoIdentificado')
+        if risco_identificado_reports:
+            risco_identificado = risco_identificado_reports.split(' - ')[1]
+        
         report = Reports.objects.create(
         user=request.user,
-        planta_reports = request.POST.get('planta'),
-        local_reports = request.POST.get('local'),
-        situacao_reports=request.POST.get('situacao'),
-        risco_identificado_reports=request.POST.get('riscoIdentificado'),
+        planta_reports = planta,
+        local_reports = local,
+        situacao_reports=situacao,
+        risco_identificado_reports=risco_identificado,
         houve_vitimas_reports=request.POST.get('houveVitimas'),
         nivel_danos_reports=request.POST.get('nivelDanos'),
+        area_responsavel_reports=request.POST.get('areaResponsavel'),
         descricao_reports='teste'
         )
         report.save()
@@ -102,10 +127,7 @@ def form_view(request):
 def form_success_view(request):
     return render(request,'app/success.html')
 
-def verify_admin(request):
-    if request.user.is_superuser==True:
-        return redirect('main')
-    
+
 
 
 def form_load_locals(request):
@@ -125,10 +147,6 @@ def form_load_locals(request):
         plantas=Planta.objects.all()
         return render(request, 'app/form.html',{'plantas':plantas})
     
-
-
-
-
     
 def form_load_situacoes(request):
     if request.method == 'POST':
@@ -137,7 +155,7 @@ def form_load_situacoes(request):
             
             local_id = data.get('local_id')
             
-            situacoes = Situacao.objects.filter(local=local_id).values('id', 'nome_situacao')
+            situacoes = Situacao.objects.filter(local=local_id).values('id', 'nome_situacao','verifica_area_situacao')
             
             return JsonResponse({'situacoes': list(situacoes)})
     
@@ -145,17 +163,59 @@ def form_load_situacoes(request):
         plantas=Planta.objects.all()
         return render(request, 'app/form.html',{'plantas':plantas})
     
+    
 def form_load_riscos(request):
     if request.method == 'POST':
 
             data = json.loads(request.body)
             
             situacao_id = data.get('situacao_id')
+
+            print("id situacao: "+situacao_id)
             
-            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_situacao')
+            riscos = Risco.objects.filter(situacao=situacao_id).values('id', 'nome_risco','verifica_area_risco')
             
             return JsonResponse({'riscos': list(riscos)})
     
     else:
         plantas=Planta.objects.all()
         return render(request, 'app/form.html',{'plantas':plantas})
+    
+def main_delete_reports(request):
+    if request.method == 'POST':
+
+            data = json.loads(request.body)
+            
+            idsToRemove = data.get('data')
+            
+            print(len(idsToRemove))
+            
+            for i in range(len(idsToRemove)):
+                
+                Reports.objects.filter(id=idsToRemove[i]).delete()
+                
+            
+            return JsonResponse({'msg': 'ok'})
+
+    else:
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+    
+def main_update_reports(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        
+        dados = data.get('data')
+        
+        
+        for obj in dados:
+
+            report = Reports.objects.get(id=obj['id']) 
+            report.area_responsavel_reports = obj['textoSelecionado']
+            report.save()
+        
+        return JsonResponse({'msg': 'ok'})
+    
+    else:
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+    
+    

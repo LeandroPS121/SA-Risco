@@ -16,7 +16,8 @@ class Reports(models.Model):
     situacao_reports = models.CharField(max_length=255)
     risco_identificado_reports = models.CharField(max_length=255)
     houve_vitimas_reports = models.CharField(default='Não', max_length=4)
-    nivel_danos_reports = models.CharField(max_length=50)
+    nivel_danos_reports = models.CharField(max_length=50,null=True)
+    area_responsavel_reports = models.CharField(max_length=10)
     descricao_reports = models.TextField(blank=True, null=True)
     
 class Planta(models.Model):
@@ -34,10 +35,12 @@ class Situacao(models.Model):
     local=models.ForeignKey(Local,on_delete=models.CASCADE)
     nome_situacao=models.CharField(max_length=100)
     descricao_situacao=models.CharField(max_length=255)
+    verifica_area_situacao=models.IntegerField()
 
 class Risco(models.Model):
-    situcao=models.ForeignKey(Situacao,on_delete=models.CASCADE)
+    situacao=models.ForeignKey(Situacao,on_delete=models.CASCADE)
     nome_risco=models.CharField(max_length=100)
     descricao_risco=models.CharField(max_length=255)
+    verifica_area_risco=models.IntegerField()
     
     

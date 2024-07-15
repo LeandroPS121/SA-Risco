@@ -11,14 +11,11 @@ function getCSRFToken() {
     return '';
 }
 
-function desactiveButton(btnId){
-    let botao = document.getElementById('btnId')
-    botao.disable = true;
-    setInterval(function(){
-        botao.disable = false;
-    }, 5000);
+function verificaVitima(){
+    let houveVitima = document.getElementById("houveVitimas").value;
+    let formDanos = document.getElementById('form-nivel-dano');
+    formDanos.classList.remove('d-none');
+    if (houveVitima == "nao") {
+        formDanos.classList.add('d-none');
+    }
 }
-
-var formulario = document.getElementById('myForm');
-formulario.planta.textContent;
-document.getElementsByTagName("<code>")

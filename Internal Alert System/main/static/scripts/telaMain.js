@@ -1,44 +1,113 @@
+function debugRestantes(){
+    rest='restantes: \n\n'
+    for(let i = 0; i < checkBoxesIds.length; i++){
+        rest+=i+': '+checkBoxesIds[i]+'\n'
+}
+alert(rest)
+}
+var checkBoxesIds=[];
+
 document.addEventListener("DOMContentLoaded", function () {
     const table = document.getElementById('tabela-relatorios');
     const checkboxes = table.querySelectorAll('tbody input[type="checkbox"]');
     const checkTodos = document.getElementById('checkTodos');
 
+
     // Adicionar evento ao checkbox "Selecionar Todos"
     checkTodos.addEventListener('change', function () {
         checkboxes.forEach(function (checkbox) {
-            checkbox.checked = checkTodos.checked;
             const row = checkbox.closest('tr');
-            if (checkTodos.checked) {
-                row.classList.add('selected');
+            if(row.style.display !== 'none'){
+            checkbox.checked = checkTodos.checked;
+            if(checkbox.checked){
+                let existsId= verifica_id(row);
+                if(!existsId){
+                    row.classList.add('selected');
+                    addCheckboxesIds(row);
+                }
             } else {
+                removeCheckboxesIds(row);
                 row.classList.remove('selected');
             }
+            
+            verificaSelecoes();
+        }
         });
     });
 
+    function verifica_id(row){
+        for(let i=0;i < checkBoxesIds.length; i++){
+            if(checkBoxesIds[i]==row.id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+  
+
     // Adicionar eventos para os checkboxes individuais
     for (let i = 0; i < checkboxes.length; i++) {
+
+
         checkboxes[i].addEventListener('click', function (event) {
             event.stopPropagation();
             const row = this.closest('tr');
-            if (this.checked) {
+            if (this.checked) {                
                 row.classList.add('selected');
+                addCheckboxesIds(row)
             } else {
                 row.classList.remove('selected');
+                removeCheckboxesIds(row)
             }
+            verificaSelecoes();
         });
-
+        
         // Adiciona evento de clique na linha para ativar/desativar o checkbox
-        checkboxes[i].closest('tr').addEventListener('click', function () {
+        checkboxes[i].closest('tr').addEventListener('click', function (event) {
             const checkbox = this.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            if (checkbox.checked) {
-                this.classList.add('selected');
-            } else {
-                this.classList.remove('selected');
+            const row = checkbox.closest('tr');
+            const td= event.target.closest('td:not([name="area"])');
+            
+            
+            if (td) {   
+                checkbox.checked = !checkbox.checked;  
+                
+                if(checkbox.checked){
+                    row.classList.add('selected');
+                    addCheckboxesIds(row)
+                } else {
+                    row.classList.remove('selected');
+                    removeCheckboxesIds(row);
+                }
             }
+            verificaSelecoes();
         });
     }
+    function addCheckboxesIds(row){
+
+        checkBoxesIds.push(row.id);
+    
+    }
+    
+    function removeCheckboxesIds(row){
+        for(let i = 0; i < checkBoxesIds.length; i++){
+            if(row.id==checkBoxesIds[i]){
+                checkBoxesIds.splice(i,1);
+            }
+        }      
+        
+    }
+    
+    function verificaSelecoes(){
+
+        if(checkBoxesIds.length!=0 && document.getElementById("editar").textContent=='Editar'){
+            document.getElementById('excluir').disabled = false;  
+        }else{
+            document.getElementById('excluir').disabled = true;  
+        }
+    }
+
 });
 
 // Função para excluir linhas selecionadas
@@ -59,7 +128,7 @@ function verificaDadosPlanilha(){
     if (tbody.rows.length === 0) {
         const tableContainer = document.querySelector('.table-container');
         const mensagem = document.createElement('div');
-        mensagem.textContent = 'Não há dados na planilha.';
+        mensagem.textContent = 'Não há dados na Tabela.';
         mensagem.classList.add('text-center', 'mt-3', 'text-muted');
         tableContainer.replaceWith(mensagem);
     }
@@ -95,4 +164,5 @@ function filtrarTabela() {
         }
     }
 }
+
 verificaDadosPlanilha();
