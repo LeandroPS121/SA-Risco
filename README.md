@@ -23,14 +23,8 @@ Abra uma janela de comando ou terminal.<br>
 Digite o comando pip install django e pressione Enter.<br>
 Aguarde até que a instalação seja concluída.<br>
 
-<h3>3-Criar um Projeto Django</h3>
-Para criar um projeto Django, siga os seguintes passos:<br>
-Abra uma janela de comando ou terminal.<br>
-Digite o comando django-admin startproject meu_projeto e pressione Enter.<br>
-Substitua meu_projeto pelo nome do seu projeto.<br>
-
-<h3>4-Executar o Servidor de Desenvolvimento</h3>
+<h3>3-Executar o Servidor de Desenvolvimento</h3>
 Para executar o servidor de desenvolvimento, siga os seguintes passos:<br>
-Acesse o diretório do seu projeto Django.<br>
+Acesse o diretório: Internal Alert System\main.<br>
 Digite o comando python manage.py runserver e pressione Enter.<br>
 Abra um navegador e acesse http://localhost:8000/ para ver o seu projeto em execução.<br>
