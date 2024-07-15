@@ -20,7 +20,7 @@ Execute o instalador e siga as instruções para instalar o Python.<br>
 <h3>2-Instalar Django</h3>
 Para instalar Django, siga os seguintes passos:<br>
 Abra uma janela de comando ou terminal.<br>
-Digite o comando pip install django e pressione Enter.<br>
+Digite o comando `pip install django` e pressione Enter.<br>
 Aguarde até que a instalação seja concluída.<br>
 
 <h3>3-Executar o Servidor de Desenvolvimento</h3>
